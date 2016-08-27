@@ -1,0 +1,9 @@
+FROM tommi2day/openmama
+
+ENV HOSTNAME openmama-pub
+
+COPY config/mama.properties.pub /opt/openmama/config/mama.properties
+RUN cp -r /opt/openmama/config/* /opt/openmama/config-default/.
+EXPOSE 7777
+
+
