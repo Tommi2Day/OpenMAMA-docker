@@ -22,6 +22,8 @@ the latter 2 images differs only on the openmama configuration and the usage of 
 ### build
 ```sh
 #!/bin/bash
+git clone https://github.com/Tommi2Day/OpenMAMA-docker openmama
+cd openmama
 docker build -t tommi2day/openmama .
 docker build -t tommi2day/openmama-pub -f Dockerfile.openmama-pub .
 docker build -t tommi2day/openmama-sub -f Dockerfile.openmama-sub .
@@ -68,16 +70,16 @@ docker run -it --rm \
 tommi2day/openmama
 ```
 
-start publisher to replay test data using provided publisher docker starter script
+start publisher to replay test data using on Github provided publisher docker starter script
 ```sh
 ./run_openmama-pub.sh /opt/openmama/bin/test_replay.sh
 ```
-start subscriber to listen test data using provided subscriber docker starter script
+start subscriber to listen test data using on Github provided subscriber docker starter script
 ```sh
  ./run_openmama-sub.sh /opt/openmama/bin/test_listen.sh
 ```
 
-start bookticker to subscribe test data using provided subscriber docker starter script
+start bookticker to subscribe test data using on Github provided subscriber docker starter script
 ```sh
  ./run_openmama-sub.sh /opt/openmama/bin/test_ticker.sh
 ```
