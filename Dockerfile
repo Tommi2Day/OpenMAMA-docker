@@ -6,6 +6,7 @@ ENV HOSTNAME openmama
 RUN yum update -y && yum install -y epel-release vim wget tar mc sudo git-core java-1.8.0-openjdk-devel libevent libuuid && yum clean all
 
 ENV MAMA_VERSION 2.4.1
+ENV RPM_BUILD 2
 ENV JAVA_HOME /etc/alternatives/java_jdk
 
 # Disables the firewall
@@ -25,7 +26,8 @@ RUN yum install -y qpid-proton-c  --enablerepo=epel
 
 #install openmama from local rpm
 ADD openmama*.rpm /root/
-RUN yum localinstall -y --nogpgcheck /root/openmama-${MAMA_VERSION}*.rpm && rm /root/openmama-${MAMA_VERSION}*.rpm && yum clean all
+RUN yum localinstall -y --nogpgcheck /root/openmama-${MAMA_VERSION}-${RPM_BUILD}*.rpm /root/openmama-devel-${MAMA_VERSION}-${RPM_BUILD}*.rpm && \
+	rm /root/openmama-${MAMA_VERSION}-${RPM_BUILD}*.rpm /root/openmama-devel-${MAMA_VERSION}-${RPM_BUILD}*.rpm && yum clean all
 
 #make default config copy to be restore if mounted config dir is empty and source profile
 RUN mkdir /opt/openmama/config-default && cp -r /opt/openmama/config/* /opt/openmama/config-default/. && \
