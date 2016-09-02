@@ -1,0 +1,13 @@
+FROM tommi2day/openmama
+
+ENV HOSTNAME openmama-zmq
+USER root
+RUN yum localinstall -y --nogpgcheck /root/openmama-zmq-${MAMA_VERSION}-${RPM_BUILD}*.rpm && \
+	 rm /root/openmama-zmq-${MAMA_VERSION}-${RPM_BUILD}*.rpm && yum clean all
+COPY config/mama.properties.zmq /opt/openmama/config/mama.properties
+RUN cp -r /opt/openmama/config/* /opt/openmama/config-default/.  && \
+	sed -i -e 's/-m qpid/-m zmq/g' /opt/openmama/bin/test_*.sh && \
+	chown -R mama:mama /opt/openmama
+USER mama
+
+

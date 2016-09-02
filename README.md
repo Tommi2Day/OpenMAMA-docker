@@ -4,20 +4,25 @@
 
 ## An OpenMAMA installation running on Docker
 
-Description: [http://www.openmama.org/what-is-openmama/introduction-to-openmama]
+Description: http://www.openmama.org/what-is-openmama/introduction-to-openmama
 
-Upstream Source: [https://github.com/OpenMAMA/OpenMAMA]
+Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
-Docker Sources: [https://github.com/Tommi2Day/OpenMAMA-docker]
+Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMama 2.4.1, Qpid-Proton 0.13
+Versions: OpenMAMA 2.4.1, Qpid-Proton 0.13, (ZeroMQ 4.1)
 
-There are 3 images provided:
-- openmama base image [https://hub.docker.com/r/tommi2day/openmama/]    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
-- openmama publisher image [https://hub.docker.com/r/tommi2day/openmama-pub/] [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-pub.svg)](https://hub.docker.com/r/tommi2day/openmama-pub/)
-- openmama subscriber image [https://hub.docker.com/r/tommi2day/openmama-sub/]  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-sub.svg)](https://hub.docker.com/r/tommi2day/openmama-Sub/)
+There are 4 images provided:
+- OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
+- OpenMAMA publisher image (https://hub.docker.com/r/tommi2day/openmama-pub/) [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-pub.svg)](https://hub.docker.com/r/tommi2day/openmama-pub/)
+- OpenMAMA subscriber image (https://hub.docker.com/r/tommi2day/openmama-sub/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-sub.svg)](https://hub.docker.com/r/tommi2day/openmama-sub/)
+- OpenMAMA ZeroMQ enabled image (https://hub.docker.com/r/tommi2day/openmama-zmq/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-zmq.svg)](https://hub.docker.com/r/tommi2day/openmama-zmq/)
 
-the latter 2 images differs only on the openmama configuration and the usage of the seperate docker network
+The sub/pub images differs only on the openmama configuration and the usage of the seperate docker network
+
+The zmq image contains additional to the base image the OpenMama ZeroMQ Middleware Bridge from Frank Quinner (https://github.com/fquinner/OpenMAMA-zmq)
+
+all OpenMAMA are based of private build RPM using slightly extended upstream openmama.spec 
 
 ### build
 ```sh
@@ -27,6 +32,7 @@ cd openmama
 docker build -t tommi2day/openmama .
 docker build -t tommi2day/openmama-pub -f Dockerfile.openmama-pub .
 docker build -t tommi2day/openmama-sub -f Dockerfile.openmama-sub .
+docker build -t tommi2day/openmama-zmq -f Dockerfile.openmama-zmq .
 docker network create openmama-net
 ```
 ### exposed Ports
@@ -65,8 +71,7 @@ start basic image shell with default localhost config.
 ```sh
 docker run -it --rm \
 --name openmama \
--v ./openmama/data:/data \ 
--v ./openmama/config:/opt/openmama/config \ 
+-v ./openmama/data:/data \  
 tommi2day/openmama
 ```
 
@@ -84,5 +89,13 @@ start bookticker to subscribe test data using on Github provided subscriber dock
  ./run_openmama-sub.sh /opt/openmama/bin/test_ticker.sh
 ```
 
-Note: you can only run one publisher and one subscriber at a given time with the provided starter scripts. 
+start basic image shell with ZeroMQ enabled localhost config. 
+```sh
+docker run -it --rm \
+--name openmama-zmq \
+-v ./openmama/data:/data \  
+tommi2day/openmama-zmq
+```
+#####Note: 
+you can only run one publisher and one subscriber at a given time with the provided starter scripts. 
 If you need more you have to adopt the container name and mama.properties 
