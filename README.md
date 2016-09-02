@@ -10,7 +10,7 @@ Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
 Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMAMA 2.4.1, Qpid-Proton 0.13, (ZeroMQ 4.1)
+Versions: OpenMAMA 2.4.1, Qpid-Proton 0.13, ZeroMQ 4.1
 
 There are 4 images provided:
 - OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
@@ -20,9 +20,9 @@ There are 4 images provided:
 
 The sub/pub images differs only on the openmama configuration and the usage of the seperate docker network
 
-The zmq image contains additional to the base image the OpenMama ZeroMQ Middleware Bridge from Frank Quinner (https://github.com/fquinner/OpenMAMA-zmq)
+The zmq image contains additional to the base image  Frank Quinner's [OpenMama ZeroMQ Middleware Bridge](https://github.com/fquinner/OpenMAMA-zmq)
 
-all OpenMAMA are based of private build RPM using slightly extended upstream openmama.spec 
+All OpenMAMA images are based on RPM build using slightly extended upstream openmama.spec 
 
 ### build
 ```sh
@@ -96,6 +96,6 @@ docker run -it --rm \
 -v ./openmama/data:/data \  
 tommi2day/openmama-zmq
 ```
-#####Note: 
+##### Note: 
 you can only run one publisher and one subscriber at a given time with the provided starter scripts. 
 If you need more you have to adopt the container name and mama.properties 
