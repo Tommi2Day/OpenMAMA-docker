@@ -5,8 +5,8 @@ ENV HOSTNAME openmama
 
 RUN yum update -y && yum install -y epel-release vim wget tar mc sudo git-core java-1.8.0-openjdk-devel libevent libuuid && yum clean all
 
-ENV MAMA_VERSION 2.4.1
-ENV RPM_BUILD 2
+ENV MAMA_VERSION 6.1.0
+ENV RPM_BUILD 1
 ENV JAVA_HOME /etc/alternatives/java_jdk
 
 # Disables the firewall

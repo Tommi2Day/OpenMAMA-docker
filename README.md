@@ -10,7 +10,7 @@ Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
 Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMAMA 2.4.1, Qpid-Proton 0.13, ZeroMQ 4.1
+Versions: OpenMAMA 6.1.0, Qpid-Proton 0.13, ZeroMQ 4.1
 
 There are 4 images provided:
 - OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)

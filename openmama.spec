@@ -2,8 +2,8 @@
 %define DATA   https://github.com/OpenMAMA/OpenMAMA-testdata.git 
 %define	ZMQ    https://github.com/fquinner/OpenMAMA-zmq.git
 
-%define BUILD_VERSION 2.4.1
-%define BUILD_NUMBER 2
+%define BUILD_VERSION 6.1.0
+%define BUILD_NUMBER 1
 
 Summary: An abstraction layer which sits on top of multiple message oriented middlewares
 Name:       openmama
@@ -114,6 +114,9 @@ fi
 /opt/openmama/examples
 
 %changelog
+
+* Fri Sep 23 2016 Thomas Dressler  - 6.1.0-1
+- adopted from https://github.com/OpenMAMA/OpenMAMA/releases/tag/OpenMAMA-6.1.0-release
 
 * Fri Sep 02 2016 Thomas Dressler  - 2.4.1-2
 --Clone from GitHub and build
