@@ -1,0 +1,40 @@
+home
+enable
+configure
+! pragma:interpreter:ignore-already-exists
+create message-vpn "mama-vpn"
+ authentication
+  user-class client
+   basic
+    auth-type internal 
+	 no shutdown
+end 
+
+configure
+message-vpn "mama-vpn"
+service
+  smf
+   plain-text 
+	no shutdown
+end
+
+configure
+! pragma:interpreter:ignore-already-exists
+create client-profile "mama-profile" message-vpn "mama-vpn"
+end
+
+configure
+! pragma:interpreter:ignore-already-exists
+create client-username "mama" message-vpn "mama-vpn"
+  password "mama"
+  client-profile "mama-profile"
+  no shutdown
+end
+
+configure
+message-vpn "mama-vpn"
+  no shutdown
+end
+
+logout
+

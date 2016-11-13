@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+
+set timeout 5
+set hostname [lindex $argv 0]
+set script [lindex $argv 1]
+set key [lindex $argv 2]
+
+
+spawn ssh -p 2222 -i $key sysadmin@$hostname
+
+expect "sysadmin@" {
+  send "solacectl cli\n"
+  expect ">"
+  send "source script $script\n "
+  expect "sysadmin@"
+} 

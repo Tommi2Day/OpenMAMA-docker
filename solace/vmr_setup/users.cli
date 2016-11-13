@@ -1,0 +1,21 @@
+home
+enable
+configure
+! pragma:interpreter:ignore-already-exists
+username admin
+change-password admin
+end
+
+configure
+! pragma:interpreter:ignore-already-exists
+create username transfer password transfer file-transfer
+end
+
+
+configure
+! pragma:interpreter:ignore-already-exists
+authentication
+user-class cli
+auth-type internal
+logout
+

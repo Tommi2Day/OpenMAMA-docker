@@ -1,0 +1,32 @@
+FROM tommi2day/openmama
+
+ENV HOSTNAME openmama-solace
+USER root
+
+#need expect for remote operating solace cli
+RUN yum install -y expect
+
+#add files
+COPY config/mama.properties.solace /opt/openmama/config/mama.properties
+COPY ["solace/config/*", "/opt/openmama/config/"]
+COPY ["solace/bridge/*", "/opt/openmama/lib/"]
+COPY ["solace/solclient","/opt/solclient"]
+COPY ["solace/vmr_setup","/opt/solclient/vmr_setup"]
+
+#add solclient to profile
+RUN \
+  echo 'PATH=$PATH:/opt/solclient/bin;\
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/solclient/lib;\ 
+  export PATH LD_LIBRARY_PATH' >/etc/profile.d/solclient.sh
+
+#adjust configs
+RUN \
+	ln -s /opt/solclient/vmr_setup/vmr_mama_conf.sh /opt/solclient/bin/ && \
+	ln -s /opt/solclient/vmr_setup/run_cli.sh /opt/solclient/bin/ && \
+    cp -r /opt/openmama/config/* /opt/openmama/config-default/.  && \
+	sed -i -e 's/-m qpid/-m solace/g' /opt/openmama/bin/test_*.sh && \
+	chown -R mama:mama /opt/openmama
+
+#work now with mama user
+USER mama
+
