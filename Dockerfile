@@ -30,10 +30,8 @@ RUN yum localinstall -y --nogpgcheck /root/openmama-${MAMA_VERSION}-${RPM_BUILD}
 	rm /root/openmama-${MAMA_VERSION}-${RPM_BUILD}*.rpm /root/openmama-devel-${MAMA_VERSION}-${RPM_BUILD}*.rpm && yum clean all
 
 #make default config copy to be restore if mounted config dir is empty and source profile
-RUN mkdir /opt/openmama/config-default && cp -r /opt/openmama/config/* /opt/openmama/config-default/. && \
-	echo "if [ ! -r /opt/openmama/config/mama.properties ]; then cp -r /opt/openmama/config-default/mama.properties /opt/openmama/config/.; fi" >>/opt/openmama/.bashrc && \
-	echo "if [ ! -r /opt/openmama/config/profile.openmama  ]; then cp -r /opt/openmama/config-default/profile.openmama  /opt/openmama/config/.; fi" >>/opt/openmama/.bashrc && \
-	echo 'echo $PATH|grep openmama >/dev/null || . /opt/openmama/config/profile.openmama' >>/opt/openmama/.bashrc
+RUN mkdir /opt/openmama/config-default && cp -r /opt/openmama/config/* /opt/openmama/config-default/ && \
+	mkdir -p $HOME/.ssh && ln -s /data $HOME/extdata
 	
 	
 #copy testdata run scripts
@@ -49,10 +47,9 @@ RUN chown -R mama:mama $HOME /data
 USER mama
 WORKDIR $HOME
 
-ADD [ ".vimrc","$HOME/"]
-RUN ln -s /data $HOME/extdata
-ENV TERM linux
-ENV EDITOR vi
+ADD [ ".vimrc",".bashrc","$HOME/"]
+ENV TERM xterm
+ENV EDITOR vim
 
 #volumes
 VOLUME [ "/data", "/opt/openmama/config" ]
