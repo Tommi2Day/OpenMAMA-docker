@@ -10,14 +10,14 @@ Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
 Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMAMA 6.1.0, Qpid-Proton 0.13, ZeroMQ 4.1, SolClient 7
+Versions: OpenMAMA 6.1.0, Qpid-Proton 0.13, ZeroMQ 4.1
 
-There are 5 images available:
+There are 5 different flavors of OpenMAMA images available:
 - OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
 - OpenMAMA publisher image (https://hub.docker.com/r/tommi2day/openmama-pub/) [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-pub.svg)](https://hub.docker.com/r/tommi2day/openmama-pub/)
 - OpenMAMA subscriber image (https://hub.docker.com/r/tommi2day/openmama-sub/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-sub.svg)](https://hub.docker.com/r/tommi2day/openmama-sub/)
 - OpenMAMA ZeroMQ enabled image (https://hub.docker.com/r/tommi2day/openmama-zmq/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-zmq.svg)](https://hub.docker.com/r/tommi2day/openmama-zmq/)
-- OpenMAMA Solace enabled image (https://hub.docker.com/r/tommi2day/openmama-solace/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-solace.svg)](https://hub.docker.com/r/tommi2day/openmama-solace/)
+- OpenMAMA Solace enabled image (you need to build it for yourself)
 
 The sub/pub OpenMAMA images differs only on the openmama configuration and the usage of the seperate docker network
 
@@ -25,7 +25,7 @@ The zmq OpenMAMA image contains additional to the base image  Frank Quinner's [O
 
 The solace enabled OpenMAMA container utilizes the free "Community Edition" of the Solace [Virtual Message Router](http://dev.solace.com/tech/virtual-message-router/) as 
 [OpenMAMA bridge](http://docs.solace.com/Solace-OpenMama/Solace-OpenMAMA-Componen.htm) (without SolCache). 
-There are also scripts for basic configuring of the VMR provided
+There are also scripts for basic configuring of the VMR provided.
 
 ### build
 ```sh
@@ -36,8 +36,33 @@ docker build -t tommi2day/openmama .
 docker build -t tommi2day/openmama-pub -f Dockerfile.openmama-pub .
 docker build -t tommi2day/openmama-sub -f Dockerfile.openmama-sub .
 docker build -t tommi2day/openmama-zmq -f Dockerfile.openmama-zmq .
-docker build -t tommi2day/openmama-solace -f Dockerfile.openmama-solace .
 docker network create openmama-net
+```
+
+to build the solace enabled container you have to download 
+the propretary software from 
+[Solace Developer Portal](http://dev.solace.com/downloads/)
+
+- C API Linux x64
+
+    extract the tarball and copy all files from lib/ to solace/lib 
+    
+- API-> Openmama (Bridge) for Linux x64
+
+    extract the tarball and copy "libmamasolaceimpl.so" and "libmamasolacemsgimpl.so" to
+    solace/bridge and "dictionary" and "mama.properties to solace/config"
+    
+- SDKperf C Linux x64
+
+    extract the tarball and copy sdkperf_c to solace/bin
+    
+- optionally (not needed for the build) you my consider to download 
+the SolAdmin Gui from the same page.
+
+Then build the OpenMAMA base container first.
+Afterwards you may build the new container using
+```
+docker build -t tommi2day/openmama-solace -f Dockerfile.openmama-solace .
 ```
 ### exposed Ports
 ```sh
@@ -109,10 +134,15 @@ The virtual appliance "Solace Virtual Message Router"(VMR) is available [here](h
 Its a VM which runs the VMR as Docker container inside. Make sure the VM can be reached per hostname
 and does not change the IP (usually via DHCP reservation). 
 
-You can reach both, the VM via ssh on port 2222 as user "sysadmin" 
+For the VMR Appliance Installation follow the provided quickstart guide 
+for your Hypervisor (VMWare vSphere,ESXi or Workstation, Oracle VirtualBox, KVM) 
+
+After PowerOn of the new VM you can reach both, the VM via ssh on port 2222 as user "sysadmin" 
 and the docker container on port 22 as user "support" on the VMR IP 
 
-Solace provides a lot of samples on [Github](https://github.com/solacesamples). There is also an OpenMAMA related
+Solace provides a lot of samples to there technology on 
+[Github](https://github.com/solacesamples). 
+There is also an OpenMAMA related
 [Tutorial](https://github.com/SolaceSamples/solace-samples-openmama). 
 
 start solace enabled OpenMAMA container with providing the VMR hostname 
@@ -152,11 +182,12 @@ You may configure a VMR with these supplied cli scripts from within the running 
     create message vpn "mama-vpn" with service SMF, basic auth and user "mama" with password "mama"
  - dump_mama-vpn.sh
     
-    uses sdkperf_c todump all traffic an message vpn mama-vpn
+    uses sdkperf_c to dump all traffic an message vpn mama-vpn
 
 Alternativ you may copy the related scripts to another unix box. Pls review and adopt the scripts regarding hostnames, IPs passwords etc.
 ssh keys and passwords or use SolAdmin.
 
+**Remember:** Solace software is subject to there propretary license
 
 #### Notes: 
 - you can only run one publisher and one subscriber at a given time with the provided starter scripts. 
@@ -192,4 +223,3 @@ which may not be provided by the Hypervisor as seen at ProfitBricks Cloud.
     ```
     I dont know why a "virtual" router should require serial console output.
  
- - Solace components are subject to there licenses
