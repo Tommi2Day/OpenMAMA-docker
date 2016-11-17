@@ -10,14 +10,14 @@ Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
 Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMAMA 6.1.0, Qpid-Proton 0.13, ZeroMQ 4.1
+Versions: OpenMAMA 6.1.0, Qpid-Proton 0.14, ZeroMQ 4.1.4
 
 There are 5 different flavors of OpenMAMA images available:
 - OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
 - OpenMAMA publisher image (https://hub.docker.com/r/tommi2day/openmama-pub/) [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-pub.svg)](https://hub.docker.com/r/tommi2day/openmama-pub/)
 - OpenMAMA subscriber image (https://hub.docker.com/r/tommi2day/openmama-sub/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-sub.svg)](https://hub.docker.com/r/tommi2day/openmama-sub/)
 - OpenMAMA ZeroMQ enabled image (https://hub.docker.com/r/tommi2day/openmama-zmq/)  [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama-zmq.svg)](https://hub.docker.com/r/tommi2day/openmama-zmq/)
-- OpenMAMA Solace enabled image (you need to build it for yourself)
+- OpenMAMA Solace enabled image (Dockerfile and scripts only, for legal reasons you need to build it for yourself)
 
 The sub/pub OpenMAMA images differs only on the openmama configuration and the usage of the seperate docker network
 
