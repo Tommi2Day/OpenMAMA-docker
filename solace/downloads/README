@@ -1,0 +1,13 @@
+to build the solace enabled container you need to download the propretary software from
+Solace (http://dev.solace.com/download-links/) for yourself
+
+- C API Linux 2.6 x64
+- API-> Openmama (Bridge) for Linux 2.6 x64
+- SDKperf C Linux 2.6 x64
+
+copy the downloaded tarballs to here. afterwards you should see files similar
+>ls -1 solace/downloads
+pubSubTools_CCSMP_Linux26-x86_64_opt_7.2.5.6.tar.gz
+solclient_Linux26-x86_64_opt_7.2.5.7.tar.gz
+solopenmama_bridge_Linux26-x86_64_opt_7.2.2.32.tar.gz
+

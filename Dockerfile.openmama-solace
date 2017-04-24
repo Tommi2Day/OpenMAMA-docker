@@ -8,10 +8,21 @@ RUN yum install -y expect
 
 #add files
 COPY config/mama.properties.solace /opt/openmama/config/mama.properties
-COPY ["solace/config/*", "/opt/openmama/config/"]
-COPY ["solace/bridge/*", "/opt/openmama/lib/"]
-COPY ["solace/solclient","/opt/solclient"]
+COPY ["solace/solclient", "/opt/solclient"]
+COPY ["solace/downloads","/opt/solclient/downloads"]
 COPY ["solace/vmr_setup","/opt/solclient/vmr_setup"]
+
+#extract solace tarballs
+RUN \
+	cd /opt/solclient/downloads && \
+	for f in *.tar.gz; do tar -xvzf $f >/dev/null; done && \
+	cp -p pubSubTools/sdkperf_c /opt/solclient/bin/ && \
+	cp -rp solclient-*/* /opt/solclient/ && \
+	cp solopenmama_bridge/lib/* /opt/openmama/lib/ && \
+	chmod a+x /opt/openmama/lib/*.so /opt/solclient/lib/*.so /opt/solclient/bin/*.sh && \
+	mkdir /opt/openmama/config/sample_solace && \
+	cp -p solopenmama_bridge/dictionary  solopenmama_bridge/*.properties /opt/openmama/config/sample_solace/ && \
+	cd && rm -rf /opt/soliclient/downloads
 
 #add solclient to profile
 RUN \
@@ -23,7 +34,7 @@ RUN \
 RUN \
 	ln -s /opt/solclient/vmr_setup/vmr_mama_conf.sh /opt/solclient/bin/ && \
 	ln -s /opt/solclient/vmr_setup/run_cli.sh /opt/solclient/bin/ && \
-    cp -r /opt/openmama/config/* /opt/openmama/config-default/.  && \
+    	cp -r /opt/openmama/config/* /opt/openmama/config-default/.  && \
 	sed -i -e 's/-m qpid/-m solace/g' /opt/openmama/bin/test_*.sh && \
 	chown -R mama:mama /opt/openmama
 
