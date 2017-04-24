@@ -5,12 +5,12 @@ ENV HOSTNAME openmama
 
 RUN yum update -y && yum install -y epel-release vim wget tar mc sudo git-core java-1.8.0-openjdk-devel libevent libuuid && yum clean all
 
-ENV MAMA_VERSION 6.1.0
-ENV RPM_BUILD 2
+ENV MAMA_VERSION 6.2.0
+ENV RPM_BUILD 1
 ENV JAVA_HOME /etc/alternatives/java_jdk
 
 # Disables the firewall
-RUN systemctl disable firewalld
+#RUN systemctl disable firewalld
 
 #disable selinux
 RUN if [ -w /etc/sysconfig/selinux ]; then perl -pi -e "s/^SELINUX=.*/SELINUX=disabled/g" /etc/sysconfig/selinux; fi

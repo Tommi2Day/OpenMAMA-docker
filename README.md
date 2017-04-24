@@ -10,7 +10,7 @@ Upstream Source: https://github.com/OpenMAMA/OpenMAMA
 
 Docker Sources: https://github.com/Tommi2Day/OpenMAMA-docker
 
-Versions: OpenMAMA 6.1.0, Qpid-Proton 0.14, ZeroMQ 4.1.4
+Versions: OpenMAMA 6.2.0, Qpid-Proton 0.17, ZeroMQ 4.1.4
 
 There are 5 different flavors of OpenMAMA images available:
 - OpenMAMA base image (https://hub.docker.com/r/tommi2day/openmama/)    [![Docker Pulls](https://img.shields.io/docker/pulls/tommi2day/openmama.svg)](https://hub.docker.com/r/tommi2day/openmama/)
@@ -43,20 +43,20 @@ to build the solace enabled container you have to download
 the propretary software from 
 [Solace Developer Portal](http://dev.solace.com/downloads/)
 
-- C API Linux x64
+- C API Linux 2.6 x64
+- API-> Openmama (Bridge) for Linux 2.6 x64
+- SDKperf C Linux 2.6 x64
 
-    extract the tarball and copy all files from lib/ to solace/lib 
-    
-- API-> Openmama (Bridge) for Linux x64
+copy the tarballs into solace/downloads/. afterwards you should see there files similar
+```
+ls -1 solace/downloads
+pubSubTools_CCSMP_Linux26-x86_64_opt_7.2.5.6.tar.gz
+solclient_Linux26-x86_64_opt_7.2.5.7.tar.gz
+solopenmama_bridge_Linux26-x86_64_opt_7.2.2.32.tar.gz
+```
 
-    extract the tarball and copy "libmamasolaceimpl.so" and "libmamasolacemsgimpl.so" to
-    solace/bridge and "dictionary" and "mama.properties to solace/config"
     
-- SDKperf C Linux x64
-
-    extract the tarball and copy sdkperf_c to solace/bin
-    
-- optionally (not needed for the build) you my consider to download 
+- optionally (not needed for the build) you may consider to download 
 the SolAdmin Gui from the same page.
 
 Then build the OpenMAMA base container first.

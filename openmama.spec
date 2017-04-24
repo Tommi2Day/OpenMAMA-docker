@@ -2,8 +2,8 @@
 %define DATA   https://github.com/OpenMAMA/OpenMAMA-testdata.git 
 %define	ZMQ    https://github.com/fquinner/OpenMAMA-zmq.git
 
-%define BUILD_VERSION 6.1.0
-%define BUILD_NUMBER 2
+%define BUILD_VERSION 6.2.0
+%define BUILD_NUMBER 1
 
 Summary: An abstraction layer which sits on top of multiple message oriented middlewares
 Name:       openmama
@@ -72,7 +72,7 @@ mkdir %{buildroot}/opt/openmama/data
 mkdir %{buildroot}/opt/openmama/config
 cp -r %{_builddir}/openmama/openmama_install_*/* %{buildroot}/opt/openmama
 cp %{_builddir}/openmama/README* %{buildroot}/opt/openmama/
-cp %{_builddir}/openmama/COPYING %{buildroot}/opt/openmama/
+cp %{_builddir}/openmama/LICENSE* %{buildroot}/opt/openmama/
 cp %{_builddir}/openmama/mama/c_cpp/src/examples/mama.properties %{buildroot}/opt/openmama/config
 cp -p %{_builddir}/zmq/libmamazmqimpl.* %{buildroot}/opt/openmama/lib/ 
 cp -p %{_builddir}/zmq/config/mama.properties %{buildroot}/opt/openmama/config/mama-zmq.properties
@@ -102,7 +102,7 @@ fi
 /opt/openmama/config/*
 /opt/openmama/data/*
 /opt/openmama/README*
-/opt/openmama/COPYING
+/opt/openmama/LICENSE*
 
 %files zmq
 /opt/openmama/config/mama-zmq.properties
@@ -114,6 +114,9 @@ fi
 /opt/openmama/examples
 
 %changelog
+
+* Sun Apr 23 2017 Thomas Dressler  - 6.2.0-1
+- build release 6.2.0
 
 * Wed Nov 16 2016 Thomas Dressler  - 6.1.0-2
 - build against recent qpid-proton.so.8
