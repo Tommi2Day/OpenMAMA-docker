@@ -23,8 +23,7 @@ The sub/pub OpenMAMA images differs only on the openmama configuration and the u
 
 The zmq OpenMAMA image contains additional to the base image  Frank Quinner's [OpenMama ZeroMQ Middleware Bridge](https://github.com/fquinner/OpenMAMA-zmq)
 
-The solace enabled OpenMAMA container utilizes the free "Community Edition" of the Solace [Virtual Message Router](http://dev.solace.com/tech/virtual-message-router/) as 
-[OpenMAMA bridge](http://docs.solace.com/Solace-OpenMama/Solace-OpenMAMA-Componen.htm) (without SolCache). 
+The solace enabled OpenMAMA container utilizes the free "Standard Edition" of the Solace [PubSub](http://dev.solace.com/tech/virtual-message-router/)  Message Brocker (Virtual Message Router VMR) as [OpenMAMA bridge](http://docs.solace.com/Solace-OpenMama/Solace-OpenMAMA-Componen.htm) (without SolCache). 
 There are also scripts for basic configuring of the VMR provided.
 
 ### build
@@ -38,9 +37,7 @@ docker build -t tommi2day/openmama-sub -f Dockerfile.openmama-sub .
 docker build -t tommi2day/openmama-zmq -f Dockerfile.openmama-zmq .
 docker network create openmama-net
 ```
-
-to build the solace enabled container you have to download 
-the propretary software from 
+to build the solace enabled container you have to download the solace software from 
 [Solace Developer Portal](http://dev.solace.com/downloads/)
 
 - C API Linux 2.6 x64
@@ -130,7 +127,7 @@ Solace provides an enterprise ready high speed low latency messaging platform as
 and with the same API as virtual appliance. See details [online](http://dev.solace.com/tech/).
  Solace provides an OpenMAMA bridge which replaces the standard Qpid message bridge.
 
-The virtual appliance "Solace Virtual Message Router"(VMR) is available [here](http://dev.solace.com/downloads/).
+The virtual appliance "Solace PubSub+ Message Broker aka Virtual Message Router"(VMR) is available [here](http://dev.solace.com/downloads/).
 Its a VM which runs the VMR as Docker container inside. Make sure the VM can be reached per hostname
 and does not change the IP (usually via DHCP reservation). 
 
@@ -140,10 +137,8 @@ for your Hypervisor (VMWare vSphere,ESXi or Workstation, Oracle VirtualBox, KVM)
 After PowerOn of the new VM you can reach both, the VM via ssh on port 2222 as user "sysadmin" 
 and the docker container on port 22 as user "support" on the VMR IP 
 
-Solace provides a lot of samples to there technology on 
-[Github](https://github.com/solacesamples). 
-There is also an OpenMAMA related
-[Tutorial](https://github.com/SolaceSamples/solace-samples-openmama). 
+Solace provides a lot of samples to there technology on [Github](https://github.com/solacesamples). 
+There is also an OpenMAMA related [Tutorial](https://github.com/SolaceSamples/solace-samples-openmama). 
 
 start solace enabled OpenMAMA container with providing the VMR hostname 
 and an optional suffix (e.g. sub or pub)
@@ -202,24 +197,3 @@ If prefere to build your own RPMs, you need online access to Github and the foll
     libuuid-devel qpid-proton-c-devel libevent-devel ncurses-devel \
     libxml2-devel zeromq-devel
  ```
-
-- As of writing VMR 7.2.010 startup hangs shortly after loading image. You may wait 
-for completion(about 20min). In this time the VM tries to write to a serial console device 
-which may not be provided by the Hypervisor as seen at ProfitBricks Cloud. 
-  After you reached the login prompt login as sysadmin, give  do "sudo -i" for root access 
-  and change /etc/default/grub 
-  
-    from
-    ```
-    GRUB_CMDLINE_LINUX="crashkernel=7G-:128M biosdevname=0 net.ifnames=0 disable_cpuid_reorder=1 libata.fua=1 console=tty0 console=ttyS0,115200n8 no_timer_check"
-    ```
-    to
-    ```
-    GRUB_CMDLINE_LINUX="crashkernel=7G-:128M biosdevname=0 net.ifnames=0 disable_cpuid_reorder=1 libata.fua=1 console=tty0 no_timer_check"
-    ```
-    then rewrite grub.cfg
-    ```
-    grub2-mkconfig -o /boot/grub2/grub.cfg
-    ```
-    I dont know why a "virtual" router should require serial console output.
- 
